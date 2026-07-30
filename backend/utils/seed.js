@@ -13,13 +13,13 @@ const run = async () => {
 
   console.log("Clearing existing demo data...");
   await Promise.all([
-    User.deleteMany({ email: { $in: ["admin@feedx.ai", "donor@demo.com", "ngo@demo.com"] } }),
+    User.deleteMany({ email: { $in: ["admin@feedx.org", "donor@demo.com", "ngo@demo.com"] } }),
   ]);
 
   console.log("Creating admin...");
   const admin = await User.create({
     name: "Platform Admin",
-    email: "admin@feedx.ai",
+    email: "admin@feedx.org",
     phone: "9999999999",
     password: "admin123",
     role: "admin",
@@ -83,7 +83,7 @@ const run = async () => {
   });
 
   console.log("\nSeed complete. Demo accounts:");
-  console.log("  Admin    -> admin@feedx.ai / admin123");
+  console.log("  Admin    -> admin@feedx.org / admin123");
   console.log("  Donor    -> donor@demo.com / demo1234");
   console.log("  Receiver -> ngo@demo.com / demo1234");
 
