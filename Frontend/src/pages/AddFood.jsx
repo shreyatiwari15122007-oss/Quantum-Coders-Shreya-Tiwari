@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/client";
+import LocationPicker from "../components/LocationPicker";
 
 const initialForm = {
   title: "",
@@ -27,14 +28,17 @@ export default function AddFood() {
 
   const update = (field) => (e) => setForm({ ...form, [field]: e.target.value });
 
+  // Single source of truth for "the donor just told us where the pickup
+  // point is" — called from the map picker (click/drag) and from the
+  // geolocation button below, so both stay in sync with the same state.
+  const setLocation = (lat, lng) => {
+    setForm((f) => ({ ...f, latitude: lat, longitude: lng }));
+  };
+
   const useMyLocation = () => {
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition((pos) => {
-      setForm((f) => ({
-        ...f,
-        latitude: pos.coords.latitude,
-        longitude: pos.coords.longitude,
-      }));
+      setLocation(pos.coords.latitude, pos.coords.longitude);
     });
   };
 
@@ -129,16 +133,30 @@ export default function AddFood() {
           <input className="input-field" value={form.address} onChange={update("address")} />
         </div>
 
-        <div className="flex items-end gap-3">
-          <div className="flex-1">
-            <label className="mb-1 block text-sm font-medium text-ink/70">Location</label>
-            <p className="text-xs text-ink/50">
-              {form.latitude && form.longitude ? `${Number(form.latitude).toFixed(4)}, ${Number(form.longitude).toFixed(4)}` : "Not set"}
-            </p>
+        <div>
+          <div className="mb-1 flex items-end justify-between gap-3">
+            <div>
+              <label className="block text-sm font-medium text-ink/70">Pickup location</label>
+              <p className="text-xs text-ink/50">
+                {form.latitude && form.longitude
+                  ? `${Number(form.latitude).toFixed(4)}, ${Number(form.longitude).toFixed(4)}`
+                  : "Tap the map or use your current location"}
+              </p>
+            </div>
+            <button type="button" onClick={useMyLocation} className="btn-secondary !px-4 !py-2 text-sm">
+              Use my location
+            </button>
           </div>
-          <button type="button" onClick={useMyLocation} className="btn-secondary !px-4 !py-2 text-sm">
-            Use my location
-          </button>
+          <LocationPicker
+            latitude={form.latitude}
+            longitude={form.longitude}
+            onChange={setLocation}
+            className="mt-2 h-64"
+          />
+          <p className="mt-1 text-xs text-ink/50">
+            Recommended — nearby NGOs are ranked by distance from this pin, so an accurate pickup
+            point means faster matches.
+          </p>
         </div>
 
         <div>
@@ -153,4 +171,3 @@ export default function AddFood() {
     </div>
   );
 }
-
