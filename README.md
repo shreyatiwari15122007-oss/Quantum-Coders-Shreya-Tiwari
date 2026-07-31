@@ -93,61 +93,136 @@ This step is required for **both** deployment paths below.
 
 ## 4. Run it locally
 
-```bash
+`Step 1: Check if Node.js is already installed
+
+Open a terminal (on Ubuntu: press Ctrl+Alt+T, or search "Terminal" in your apps menu). Type:
+
+node -v
+If you see something like v20.11.0 → you already have it, skip to Step 2.
+If you see "command not found" → install it:
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+Then check again with node -v to confirm it worked.
+
+Step 2: Unzip the project
+
+Find the FoodBridgeAI.zip file you downloaded (probably in your Downloads folder). Right-click it → "Extract Here" (or in terminal: cd ~/Downloads && unzip FoodBridgeAI.zip).
+
+You should now have a folder called FoodBridgeAI.
+
+Step 3: Open it in VS Code
+
+Open VS Code. Go to File → Open Folder, and select the FoodBridgeAI folder.
+
+You'll see two folders inside: backend and frontend.
+
+Step 4: Open a terminal inside VS Code
+
+In VS Code, go to the top menu: Terminal → New Terminal. A terminal panel opens at the bottom — this is where you'll type commands.
+
+Step 5: Set up a free database (MongoDB Atlas)
+
+Your app needs somewhere to store data (users, food listings, etc). We'll use a free cloud database so you don't have to install anything extra.
+
+Go to https://www.mongodb.com/cloud/atlas/register and sign up (free).
+It'll ask you to create a cluster — pick the free M0 option, click Create.
+It will prompt you to create a database user — pick a username and password. Write these down, you'll need them in a minute.
+It will ask about network access — choose "Allow access from anywhere".
+Once your cluster is ready, click Connect → Drivers → copy the connection string. It looks like:
+   mongodb+srv://myuser:mypassword@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
+Edit that string: replace myuser and mypassword with your real username/password from step 3, and add /foodbridge right before the ?, like this:
+   mongodb+srv://myuser:mypassword@cluster0.xxxxx.mongodb.net/foodbridge?retryWrites=true&w=majority
+
+Keep this final string handy — you'll paste it in Step 7.
+
+Step 6: Install the backend's code libraries
+
+In the VS Code terminal, type these one at a time, pressing Enter after each:
+
 cd backend
 npm install
+
+This downloads everything the backend needs. It'll take a minute or two — you'll see a progress bar.
+
+Step 7: Create the backend's settings file
+
+Still in the backend folder, type:
+
 cp .env.example .env
-```
 
-Open `.env` and fill in:
-```
-MONGO_URI=<the connection string from step 3>
-JWT_SECRET=<any long random string>
-```
+Now open that new .env file in VS Code (find it in the file list on the left, inside the backend folder — you may need to click the little "show hidden files" icon, since files starting with a dot are hidden by default).
 
-Then start it:
-```bash
+Inside .env, find this line:
+
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/foodbridge?retryWrites=true&w=majority
+
+Replace it entirely with the connection string you made in Step 5.
+
+Also find this line:
+
+JWT_SECRET=replace_this_with_a_long_random_string
+
+Just type any random string of letters/numbers there, e.g. JWT_SECRET=banana43xyz99secret. It doesn't need to be memorable, just not blank.
+
+Save the file (Ctrl+S).
+
+Step 8: Start the backend
+
+Back in the terminal (still inside the backend folder), type:
+
 npm run dev
-```
 
 You should see:
-```
+
 MongoDB connected: cluster0.xxxxx.mongodb.net
 Server running on port 5000
-```
 
-Visit http://localhost:5000 — you should see `FeedX Backend Running 🚀`.
+If you see that — it's working. Leave this terminal running and don't close it.
 
-### Optional: load demo data
+Step 9: Load some demo data (optional but recommended)
 
-This creates a verified demo admin, donor, and NGO account, plus one sample food listing, so you
-can test the app immediately without registering and manually verifying accounts.
+Open a second terminal in VS Code without closing the first one: click the little + icon in the terminal panel, or Terminal → New Terminal again.
 
-```bash
+In this new terminal:
+
+cd backend
 npm run seed
-```
 
-Demo accounts created:
-| Role | Email | Password |
-|---|---|---|
-| Admin | admin@feedx.org | admin123 |
-| Donor | donor@demo.com | demo1234 |
-| Receiver | ngo@demo.com | demo1234 |
+This creates ready-to-use test accounts so you don't have to sign up manually. You'll see something like:
 
-### Start the frontend
+Admin    -> admin@foodbridge.ai / admin123
+Donor    -> donor@demo.com / demo1234
+Receiver -> ngo@demo.com / demo1234
+Step 10: Start the frontend (the actual website)
 
-Open a **second terminal** (keep the backend running in the first one):
+In that same second terminal, go back to the main project folder and into frontend:
 
-```bash
+cd ..
 cd frontend
 npm install
+
+Wait for that to finish, then:
+
 npm run dev
-```
 
-Visit http://localhost:5173. The Vite dev server proxies `/api` and `/uploads` requests to the
-backend on port 5000 automatically (see `frontend/vite.config.js`), so you don't need to configure
-CORS or a base URL manually.
+You'll see something like:
 
+Local:   http://localhost:5173/
+Step 11: Open the app
+
+Hold Ctrl and click that http://localhost:5173/ link in the terminal — or just open your browser and type in http://localhost:5173.
+
+You should see the FoodBridge AI landing page. Click Log in and use one of the demo accounts from Step 9.
+
+From now on, every time you want to work on it:
+
+You need both terminals running at once:
+
+Terminal 1: cd backend then npm run dev
+Terminal 2: cd frontend then npm run dev
+
+Then visit http://localhost:5173 in your browser. To stop either one, click into that terminal and press Ctrl+C.
 **That's it — both servers running locally means the full app works end to end.**
 
 ---
