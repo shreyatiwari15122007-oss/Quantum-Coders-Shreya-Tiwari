@@ -2,7 +2,7 @@
 
 **Surplus food, redistributed in minutes.**
 
-FeedX connects restaurants and hotels with surplus food to verified NGOs who need it — a "Swiggy for food donation." This repo is a working MVP: a Node.js/Express + MongoDB backend and a React + Tailwind frontend, both fully wired and ready to run.
+FeedX connects restaurants  , hotels , resorts that have surplus food to verified needy organizations who needs it — a "Swiggy for food donation." This repo is a working MVP: a Node.js/Express + MongoDB backend and a React + Tailwind frontend, both fully wired and ready to run.
 
 ```
 FeedX/
@@ -25,12 +25,12 @@ This isn't just scaffolding — every piece below is implemented end-to-end.
 
 **Backend**
 - JWT authentication with three roles: `donor`, `receiver`, `admin`
-- Donor → auto-creates a `Restaurant` profile; Receiver → auto-creates an `Ngo` profile
+- Donor → auto-creates a `Restaurant/hotel/resort` profile; Receiver → auto-creates an `Ngo/other needy organization ` profile
 - Full food listing CRUD, with photo upload, nearby search (Haversine distance), and filters
-- Complete request workflow: NGO requests → donor accepts/rejects → pickup confirmed with a
+- Complete request workflow: NGO/needy organization requests → donor accepts/rejects → pickup confirmed with a
   generated confirmation code → stats update automatically. Competing requests auto-reject once
   one is accepted.
-- Admin verification queue for restaurants and NGOs, dashboard stats, live donation feed
+- Admin verification queue for restaurants/resort/hotel and NGOs/needy organization, dashboard stats, live donation feed
 - Real-time notifications via Socket.IO (new food nearby, new request, accepted/rejected, pickup confirmed)
 - Centralized error handling, role-based route guards, file upload validation
 
@@ -46,7 +46,7 @@ donor↔NGO matching, QR code *scanning* (the confirmation code exists and works
 camera scanner UI), delivery-partner flow, multilingual UI, offline support.
 
 > **Note on admin verification:** the codebase ships with an admin-verification gate that blocks
-> unverified donors from listing food and unverified NGOs from requesting it (`backend/controllers/foodController.js`
+> unverified donors from listing food and unverified NGOs/needy organizations from requesting it (`backend/controllers/foodController.js`
 > and `backend/controllers/requestController.js`). Some deployments of this repo have had that gate
 > removed for faster testing/demoing. If your running instance lets any signed-up account list or
 > request food immediately, that's why — search those two files for `restaurant.verified` /
