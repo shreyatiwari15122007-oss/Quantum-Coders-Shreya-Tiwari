@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://feedxupdated-2.onrender.com/api/:path*" },
+    { "source": "/uploads/:path*", "destination": "https://feedxupdated-2.onrender.com/uploads/:path*" },
+    { "source": "/((?!api/|uploads/).*)", "destination": "/index.html" }
+  ]
+}
