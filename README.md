@@ -7,7 +7,7 @@ FeedX connects restaurants  , hotels , resorts that have surplus food to verifie
 ```
 FeedX/
 ├── backend/     Node.js + Express + MongoDB API
-├── frontend/    React + Vite + Tailwind app
+├── frontend/    React + Vite + Tailwind css
 └── README.md    You are here
 ```
 
@@ -65,10 +65,6 @@ Install these once, in order:
 | Git | `git --version` | https://git-scm.com |
 | MongoDB Atlas account (free tier) | — | https://www.mongodb.com/cloud/atlas/register |
 | Code editor (VS Code or Cursor) | — | https://code.visualstudio.com or https://cursor.com |
-| Postman (optional, for testing the API directly) | — | https://www.postman.com/downloads |
-| GitHub account (only needed for the Vercel/Render path) | — | https://github.com |
-| Render account, free tier (only needed for the Vercel/Render path) | — | https://render.com |
-| Vercel account, free tier (only needed for the Vercel/Render path) | — | https://vercel.com |
 
 You do **not** need to install MongoDB locally — Atlas gives you a free cloud database, which is
 simpler and works the same whether you're running locally or in production.
