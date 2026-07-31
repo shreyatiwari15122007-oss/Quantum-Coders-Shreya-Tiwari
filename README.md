@@ -95,9 +95,9 @@ This step is required for **both** deployment paths below.
 
 `Step 1: Check if Node.js is already installed
 
-Open a terminal (on Ubuntu: press Ctrl+Alt+T, or search "Terminal" in your apps menu). Type:
+**Open a terminal (on Ubuntu: press Ctrl+Alt+T, or search "Terminal" in your apps menu). Type:
 
-node -v
+**node -v
 If you see something like v20.11.0 → you already have it, skip to Step 2.
 If you see "command not found" → install it:
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
@@ -105,11 +105,13 @@ sudo apt install -y nodejs
 
 Then check again with node -v to confirm it worked.
 
+
 Step 2: Unzip the project
 
 Find the FoodBridgeAI.zip file you downloaded (probably in your Downloads folder). Right-click it → "Extract Here" (or in terminal: cd ~/Downloads && unzip FoodBridgeAI.zip).
-
 You should now have a folder called FoodBridgeAI.
+
+
 
 Step 3: Open it in VS Code
 
@@ -117,24 +119,31 @@ Open VS Code. Go to File → Open Folder, and select the FoodBridgeAI folder.
 
 You'll see two folders inside: backend and frontend.
 
+
+
 Step 4: Open a terminal inside VS Code
 
 In VS Code, go to the top menu: Terminal → New Terminal. A terminal panel opens at the bottom — this is where you'll type commands.
+
+
+
 
 Step 5: Set up a free database (MongoDB Atlas)
 
 Your app needs somewhere to store data (users, food listings, etc). We'll use a free cloud database so you don't have to install anything extra.
 
-Go to https://www.mongodb.com/cloud/atlas/register and sign up (free).
-It'll ask you to create a cluster — pick the free M0 option, click Create.
-It will prompt you to create a database user — pick a username and password. Write these down, you'll need them in a minute.
-It will ask about network access — choose "Allow access from anywhere".
-Once your cluster is ready, click Connect → Drivers → copy the connection string. It looks like:
-   mongodb+srv://myuser:mypassword@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
-Edit that string: replace myuser and mypassword with your real username/password from step 3, and add /foodbridge right before the ?, like this:
+*Go to https://www.mongodb.com/cloud/atlas/register and sign up (free).
+*It'll ask you to create a cluster — pick the free M0 option, click Create.
+*It will prompt you to create a database user — pick a username and password. Write these down, you'll need them in a minute.
+*It will ask about network access — choose "Allow access from anywhere".
+*Once your cluster is ready, click Connect → Drivers → copy the connection string. It looks like:
+ *  mongodb+srv://myuser:mypassword@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
+*Edit that string: replace myuser and mypassword with your real username/password from step 3, and add /foodbridge right before the ?, like this:
    mongodb+srv://myuser:mypassword@cluster0.xxxxx.mongodb.net/foodbridge?retryWrites=true&w=majority
 
 Keep this final string handy — you'll paste it in Step 7.
+
+
 
 Step 6: Install the backend's code libraries
 
@@ -144,6 +153,8 @@ cd backend
 npm install
 
 This downloads everything the backend needs. It'll take a minute or two — you'll see a progress bar.
+
+
 
 Step 7: Create the backend's settings file
 
@@ -169,6 +180,8 @@ Save the file (Ctrl+S).
 
 Step 8: Start the backend
 
+
+
 Back in the terminal (still inside the backend folder), type:
 
 npm run dev
@@ -179,6 +192,8 @@ MongoDB connected: cluster0.xxxxx.mongodb.net
 Server running on port 5000
 
 If you see that — it's working. Leave this terminal running and don't close it.
+
+
 
 Step 9: Load some demo data (optional but recommended)
 
